@@ -1,4 +1,4 @@
-class LocksController < ApplicationController
+class ReadWriteController < ApplicationController
   def fetch
     render plain: Item.first!.counter
   end

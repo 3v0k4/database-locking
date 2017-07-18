@@ -28,7 +28,7 @@ def test(url)
     end
 
     puts
-    uri = URI.parse("http://localhost:3000/fetch")
+    uri = URI.parse("http://localhost:3000/read_write/fetch")
     req = Net::HTTP::Get.new(uri.to_s)
     res = Net::HTTP.start(uri.host, uri.port) { |http| http.request(req) }
     counter = res.body.to_i
@@ -39,8 +39,8 @@ end
 
 puts "Not safe"
 puts "========"
-test("http://localhost:3000/not_safe")
+test("http://localhost:3000/read_write/not_safe")
 
 puts "Safe"
 puts "========"
-test("http://localhost:3000/safe")
+test("http://localhost:3000/read_write/safe")
