@@ -10,4 +10,6 @@ Rails.application.routes.draw do
     post :not_safe, to: "write_write#not_safe"
     post :safe, to: "write_write#safe"
   end
+
+  resources :forms, except: [ :show, :delete ]
 end

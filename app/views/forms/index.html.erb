@@ -1,0 +1,18 @@
+<h1>Contact forms</h1>
+
+<%= link_to "new", new_form_path %>
+<br/>
+<br/>
+<hr/>
+
+<% forms.each do |form| %>
+  <%= form.name %>
+  <br/>
+  <br/>
+  <%= form.content %>
+  <br/>
+  <br/>
+  <%= link_to "edit", edit_form_path(form) %>
+  <br/>
+  <hr/>
+<% end %>
