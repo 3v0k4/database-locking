@@ -1,3 +1,4 @@
 Item.all.delete_all
-Item.create(counter: 1)
-Item.create(counter: 1)
+5.times do
+  Item.create(counter: 1)
+end

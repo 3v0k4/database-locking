@@ -12,4 +12,9 @@ Rails.application.routes.draw do
   end
 
   resources :forms, except: [ :show, :delete ]
+
+  scope :read do
+    get :not_safe, to: "read#not_safe"
+    get :safe, to: "read#safe"
+  end
 end
