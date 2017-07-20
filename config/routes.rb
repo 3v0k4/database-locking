@@ -22,4 +22,10 @@ Rails.application.routes.draw do
     get :fetch, to: "write#fetch"
     post :create, to: "write#create"
   end
+
+  scope :read_read do
+    get :not_safe_1, to: "read_read#not_safe_1"
+    get :not_safe_2, to: "read_read#not_safe_2"
+    get :safe, to: "read_read#safe"
+  end
 end
