@@ -1,7 +1,7 @@
 require_relative "request_helpers"
 
 NUMBER_OF_THREADS = 5
-NUMBER_OF_RUNS = 5
+NUMBER_OF_RUNS = 3
 
 def test(url)
   NUMBER_OF_RUNS.times do |i|

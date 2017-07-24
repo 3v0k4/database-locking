@@ -1,12 +1,15 @@
 require_relative "request_helpers"
 
+NUMBER_OF_THREADS = 4
+NUMBER_OF_RUNS = 3
+
 def test(url_1, url_2)
-  5.times do |i|
+  NUMBER_OF_RUNS.times do |i|
     puts "run ##{i+1}"
     `bin/rails db:seed`
 
-    responses_1 = concurrent_gets_2(number_of_threads: 2, url_1: url_1, url_2: url_2)
-    responses_2 = concurrent_gets_2(number_of_threads: 2, url_1: url_1, url_2: url_2)
+    responses_1 = concurrent_gets_2(number_of_threads: NUMBER_OF_THREADS / 2, url_1: url_1, url_2: url_2)
+    responses_2 = concurrent_gets_2(number_of_threads: NUMBER_OF_THREADS / 2, url_1: url_1, url_2: url_2)
 
     puts
     puts (responses_1 + responses_2)
