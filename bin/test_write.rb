@@ -13,7 +13,8 @@ def test(url)
 
     puts
     puts responses
-    puts get(url: "http://localhost:3000/write/fetch")
+    id = get(url: "http://localhost:3000/write/fetch")
+    puts id
     puts
   end
 end

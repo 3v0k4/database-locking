@@ -18,7 +18,8 @@ def test(url)
     responses = concurrent_post(number_of_threads: NUMBER_OF_THREADS, url: url, params: params)
 
     puts
-    puts get(url: "http://localhost:3000/write_write/fetch")
+    counters = get(url: "http://localhost:3000/write_write/fetch")
+    puts counters
     puts
   end
 end

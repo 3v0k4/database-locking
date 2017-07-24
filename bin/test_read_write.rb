@@ -11,7 +11,8 @@ def test(url)
     concurrent_post(number_of_threads: NUMBER_OF_THREADS, url: url)
 
     puts
-    puts get(url: "http://localhost:3000/read_write/fetch")
+    counter = get(url: "http://localhost:3000/read_write/fetch")
+    puts counter
     puts
   end
 end

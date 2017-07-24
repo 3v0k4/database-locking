@@ -8,11 +8,11 @@ def test(url)
     puts "run ##{i+1}"
     `bin/rails db:seed`
 
-    responses = concurrent_gets(number_of_threads: NUMBER_OF_THREADS, url: url)
+    ids = concurrent_gets(number_of_threads: NUMBER_OF_THREADS, url: url)
 
     puts
-    puts responses.join(" ")
-    puts responses.uniq.size
+    puts ids.join(" ")
+    puts ids.uniq.size
     puts
   end
 end
