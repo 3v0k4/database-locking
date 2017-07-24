@@ -13,7 +13,8 @@ class ReadWriteController < ApplicationController
 
   def safe_
     item = Item.first!
-    item.with_lock do
+    ActiveRecord::Base.transaction do
+      item.lock!
       item.counter = item.counter + 1
       item.save!
     end
@@ -23,8 +24,7 @@ class ReadWriteController < ApplicationController
 
   def safe_
     item = Item.first!
-    ActiveRecord::Base.transaction do
-      item.lock!
+    item.with_lock do
       item.counter = item.counter + 1
       item.save!
     end
