@@ -1,41 +1,21 @@
-require "net/http"
-require "uri"
-require "json"
-require "benchmark"
-require "byebug"
+require_relative "request_helpers"
 
 def test(url)
   5.times do |i|
     puts "run ##{i+1}"
     `bin/rails db:seed`
-    counters = []
-    threads = []
 
-    5.times do |j|
-      # remember to tweak puma and db config for this to make sense (eg. pool, workers, threads)
-      threads << Thread.new do
-        uri = URI.parse(url)
-        http = Net::HTTP.new(uri.host, uri.port)
-        req = Net::HTTP::Post.new(uri.request_uri)
-        req.content_type = "application/json"
-        req.body = { first: j+1, second: j+1 }.to_json
-        res = http.request(req)
-        print "."
-        counters = res.body
-      end
-    end
-
-    threads.each do |thr|
-      counters << thr.join.value
-    end
+    params = [
+      { first: 1, second: 1 },
+      { first: 2, second: 2 },
+      { first: 3, second: 3 },
+      { first: 4, second: 4 },
+      { first: 5, second: 5 },
+    ]
+    responses = concurrent_post(number_of_threads: 5, url: url, params: params)
 
     puts
-    uri = URI.parse("http://localhost:3000/write_write/fetch")
-    req = Net::HTTP::Get.new(uri.to_s)
-    res = Net::HTTP.start(uri.host, uri.port) { |http| http.request(req) }
-    first_counter, second_counter = res.body.split(" ").map(&:to_i)
-    print "#{first_counter} #{second_counter}"
-    puts
+    puts get(url: "http://localhost:3000/write_write/fetch")
     puts
   end
 end

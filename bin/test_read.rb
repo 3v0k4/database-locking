@@ -1,34 +1,18 @@
-require "net/http"
-require "uri"
-require "json"
-require "benchmark"
-require "byebug"
+require_relative "request_helpers"
+
+NUMBER_OF_THREADS = 5
+NUMBER_OF_RUNS = 5
 
 def test(url)
-  5.times do |i|
+  NUMBER_OF_RUNS.times do |i|
     puts "run ##{i+1}"
     `bin/rails db:seed`
-    counters = []
-    threads = []
 
-    5.times do |j|
-      # remember to tweak puma and db config for this to make sense (eg. pool, workers, threads)
-      threads << Thread.new do
-        uri = URI.parse(url)
-        req = Net::HTTP::Get.new(uri.to_s)
-        res = Net::HTTP.start(uri.host, uri.port) { |http| http.request(req) }
-        print "."
-        counter = res.body.to_i
-      end
-    end
-
-    threads.each do |thr|
-      counters << thr.join.value
-    end
+    responses = concurrent_gets(number_of_threads: NUMBER_OF_THREADS, url: url)
 
     puts
-    puts counters.join(" ")
-    puts counters.uniq.size
+    puts responses.join(" ")
+    puts responses.uniq.size
     puts
   end
 end

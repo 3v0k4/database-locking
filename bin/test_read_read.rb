@@ -1,34 +1,15 @@
-require "net/http"
-require "uri"
-require "json"
-require "benchmark"
-require "byebug"
+require_relative "request_helpers"
 
-def test(url, url_2 = nil)
+def test(url_1, url_2)
   5.times do |i|
     puts "run ##{i+1}"
     `bin/rails db:seed`
-    responses = []
-    threads = []
 
-    5.times do |j|
-      # remember to tweak puma and db config for this to make sense (eg. pool, workers, threads)
-      threads << Thread.new do
-        uri = URI.parse(url)
-        uri = URI.parse(url_2) if (url_2 && j % 2 == 0)
-        req = Net::HTTP::Get.new(uri.to_s)
-        res = Net::HTTP.start(uri.host, uri.port) { |http| http.request(req) }
-        print "."
-        response = res.body
-      end
-    end
-
-    threads.each do |thr|
-      responses << thr.join.value
-    end
+    responses_1 = concurrent_gets_2(number_of_threads: 2, url_1: url_1, url_2: url_2)
+    responses_2 = concurrent_gets_2(number_of_threads: 2, url_1: url_1, url_2: url_2)
 
     puts
-    puts responses.join(" ")
+    puts (responses_1 + responses_2)
     puts
   end
 end
@@ -39,4 +20,4 @@ test("http://localhost:3000/read_read/not_safe_1", "http://localhost:3000/read_r
 
 puts "Safe"
 puts "========"
-test("http://localhost:3000/read_read/safe")
+test("http://localhost:3000/read_read/safe", "http://localhost:3000/read_read/safe")
