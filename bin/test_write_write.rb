@@ -9,11 +9,11 @@ def test(url)
     `bin/rails db:seed`
 
     params = [
-      { first: 1, second: 1 },
-      { first: 2, second: 2 },
-      { first: 3, second: 3 },
-      { first: 4, second: 4 },
-      { first: 5, second: 5 },
+      { color: "yellow" },
+      { color: "brown" },
+      { color: "pink" },
+      { color: "green" },
+      { color: "purple" },
     ]
     responses = concurrent_post(number_of_threads: NUMBER_OF_THREADS, url: url, params: params)
 
