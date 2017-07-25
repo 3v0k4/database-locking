@@ -3,7 +3,7 @@ NUMBER_OF_THREADS = 5
 NUMBER_OF_INCREMENTS = 100_000
 
 NUMBER_OF_RUNS.times do |i|
-  puts "run ##{i}"
+  puts "run ##{i+1}"
 
   counters = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
 
